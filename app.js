@@ -1,7 +1,6 @@
 // import express from 'express'
 const express = require('express');
 const app = express();
-const path = require('path');
 const http = require('http');
 const server = http.createServer(app);
 const cors = require('cors');
@@ -10,15 +9,6 @@ const port = 8080;
 var allowedOrigins = ['http://localhost:3000',
                       'http://134.136.243.250:8088'];
 
-// app.use( '/' , express.static( '/home/irfan/orderstatus/build' ) );
-console.log(path)
-console.log(__dirname);
-console.log(path.join(__dirname, 'build'));
-app.use(express.static(path.join(__dirname, 'build')));
-
-app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
 app.use(cors({
     origin: function(origin, callback){
         // allow requests with no origin 
@@ -227,11 +217,11 @@ io.on('connection', (socket) => {
     socket.on('orderPlaced', async function(msg) {
         console.log('Order Placed');
         kitchenPrinters = await getPrinters('kitchen');
-        resultSock = await Api(kitchenPrinters[0].product_categories_ids.toString().split(',')); 
-        console.log('************resultSock**********');
-        console.log(resultSock);
+        // resultSock = await Api(kitchenPrinters[0].product_categories_ids.toString().split(',')); 
+        // console.log('************resultSock**********');
+        // console.log(resultSock);
         // setTimeout(async () => { console.log('will idle for 5 sec') }, 5000)
-        io.emit('orderPlaced', resultSock);
+        io.emit('orderPlaced');
       });
 })
 
